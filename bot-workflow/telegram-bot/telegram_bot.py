@@ -1,7 +1,5 @@
 import telebot
-
-# Replace with your bot token
-API_TOKEN = '7048280167:AAE9D41jshatYxLFUkC6EZZnern7Nzosuoo'
+from config import API_TOKEN  # Import the API token from config
 
 # Initialize the bot
 bot = telebot.TeleBot(API_TOKEN)
@@ -18,4 +16,3 @@ def echo_message(message):
 
 # Polling for new messages
 bot.polling()
-  
