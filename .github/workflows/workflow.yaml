@@ -1,0 +1,45 @@
+name: Bot Deployment and High Ping Optimization
+
+on:
+  workflow_dispatch:  # Allows manual triggering of the workflow
+  schedule:
+    - cron: '0 */6 * * *'  # Automatically runs every 6 hours
+
+jobs:
+  deploy_bot:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'  # Adjust as necessary
+
+    - name: Install Dependencies
+      run: |
+        echo "Installing dependencies..."
+        pip install -r ./telegram-bot/requirements.txt  # Adjust to your specific path
+
+    - name: Deploy Bot
+      run: |
+        echo "Deploying the bot..."
+        python ./telegram-bot/telegram_bot.py &  # Run the Telegram bot in the background
+
+    - name: Check High Ping and Restart
+      run: |
+        echo "Checking bot ping and restarting if necessary..."
+        # Logic to check ping can be added here
+        # Example: If ping > threshold, restart bot
+        # You can also use a script here to perform checks
+
+  ensure_reboot:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Check and Force Restart
+      run: |
+        chmod +x ./scripts/restart_bot.sh  # Ensure the script is executable
+        ./scripts/restart_bot.sh  # Run the force restart script
+        
