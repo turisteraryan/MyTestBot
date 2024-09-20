@@ -1,0 +1,28 @@
+version: '1.0'
+services:
+  telegram_bot:
+    build:
+      context: ./telegram-bot
+    command: python telegram_bot.py
+    volumes:
+      - ./logs:/app/logs
+    restart: always
+    environment:
+      - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN}
+
+  discord_bot:
+    build:
+      context: ./discord-bot
+    command: python discord_bot.py
+    volumes:
+      - ./logs:/app/logs
+    restart: always
+    environment:
+      - DISCORD_BOT_TOKEN=${DISCORD_BOT_TOKEN}
+
+  auto_restart:
+    build:
+      context: ./scripts
+    command: python auto_restart.py
+    restart: always
+    
